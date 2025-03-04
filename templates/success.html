@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Assinatura Realizada com Sucesso - Chatbot Gênesis WEB{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+    
+    <h1 class="mt-4">Assinatura realizada com sucesso!</h1>
+    <p class="lead">Obrigado por assinar o Chatbot Gênesis WEB</p>
+    
+    <p class="my-4">
+        Agora você tem acesso ilimitado ao nosso assistente bíblico alimentado por inteligência artificial.
+        Faça perguntas, receba insights e aprofunde seu conhecimento bíblico.
+    </p>
+    
+    <div class="mt-5">
+        <a href="{{ url_for('chat') }}" class="btn btn-primary btn-lg">Começar a Conversar</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg ms-2">Ir para o Dashboard</a>
+    </div>
+</div>
+{% endblock %}

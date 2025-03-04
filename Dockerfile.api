@@ -1,0 +1,33 @@
+FROM python:3.11-slim
+RUN apt update && apt install -y sqlite3 libsqlite3-dev
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN python -m pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENV FLASK_APP=app.py
+
+# Create directories for static files
+RUN mkdir -p /app/static/img
+RUN mkdir -p /app/static/js
+RUN mkdir -p /app/static/css
+
+# Create database directory for migrations
+RUN mkdir -p /app/migrations
+
+# Set permissions for database
+RUN chmod 777 /app
+
+EXPOSE 5000
+
+# For development
+CMD [ "flask", "run", "--host=0.0.0.0", "--port=5000", "--debug"]
+
+# For production (commented out by default)
+# CMD [ "gunicorn", "app:app", "--bind=0.0.0.0:5000", "--workers=4" ]

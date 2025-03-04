@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Chatbot Gênesis WEB{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Seu Perfil</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Nome de usuário:</strong> {{ current_user.username }}</p>
+                <p><strong>Email:</strong> {{ current_user.email }}</p>
+                <p><strong>Membro desde:</strong> {{ current_user.created_at.strftime('%d/%m/%Y') }}</p>
+                <p>
+                    <strong>Status da assinatura:</strong> 
+                    {% if has_subscription %}
+                        <span class="badge bg-success">Ativa</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inativa</span>
+                    {% endif %}
+                </p>
+                {% if has_subscription and subscription %}
+                    <p><strong>Expira em:</strong> {{ subscription.end_date.strftime('%d/%m/%Y') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Acesso rápido</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-chat-dots text-primary" style="font-size: 3rem;"></i>
+                                <h5 class="card-title mt-3">Chat da Bíblia</h5>
+                                <p class="card-text">Converse e tire suas dúvidas sobre a Bíblia com nosso assistente de IA.</p>
+                                {% if has_subscription %}
+                                    <a href="{{ url_for('chat') }}" class="btn btn-primary">Acessar Chat</a>
+                                {% else %}
+                                    <a href="{{ url_for('subscription') }}" class="btn btn-primary">Assinar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-credit-card text-primary" style="font-size: 3rem;"></i>
+                                <h5 class="card-title mt-3">Gerenciar Assinatura</h5>
+                                <p class="card-text">Visualize e gerencie os detalhes da sua assinatura.</p>
+                                <a href="{{ url_for('subscription') }}" class="btn btn-primary">Gerenciar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not has_subscription %}
+<div class="card bg-light mt-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2>Assine por apenas R$ 8,99 por mês</h2>
+                <p class="lead mb-0">Acesso ilimitado ao assistente bíblico de IA.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <a href="{{ url_for('subscription') }}" class="btn btn-primary btn-lg">Assinar Agora</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

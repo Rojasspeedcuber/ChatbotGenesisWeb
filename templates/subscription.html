@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Assinatura - Chatbot Gênesis WEB{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Assinatura</h1>
+
+{% if has_subscription %}
+<div class="alert alert-success">
+    <h4 class="alert-heading">Você tem uma assinatura ativa!</h4>
+    <p>Aproveite todos os recursos do nosso assistente bíblico.</p>
+    <p>Sua assinatura expira em: <strong>{{ subscription.end_date.strftime('%d/%m/%Y') }}</strong></p>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">Detalhes da assinatura</h5>
+    </div>
+    <div class="card-body">
+        <p><strong>Status:</strong> Ativa</p>
+        <p><strong>Início:</strong> {{ subscription.start_date.strftime('%d/%m/%Y') }}</p>
+        <p><strong>Próxima cobrança:</strong> {{ subscription.end_date.strftime('%d/%m/%Y') }}</p>
+        <p><strong>Valor:</strong> R$ 8,99 por mês</p>
+    </div>
+</div>
+
+<div class="text-center">
+    <a href="{{ url_for('chat') }}" class="btn btn-primary btn-lg">Acessar o Chat</a>
+</div>
+
+{% else %}
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">Assine nosso plano</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-7">
+                <h3>Plano Premium</h3>
+                <p class="lead">Acesso completo ao assistente bíblico por apenas <strong>R$ 8,99/mês</strong></p>
+                
+                <h5 class="mt-4">O que está incluído:</h5>
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Conversas ilimitadas com o assistente bíblico
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Acesso a todas as passagens bíblicas
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Explicações detalhadas e contextualizadas
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        Cancelamento a qualquer momento
+                    </li>
+                </ul>
+                
+                <form action="{{ url_for('create_checkout_session') }}" method="POST">
+                    <button type="submit" class="btn btn-primary btn-lg">Assinar por R$ 8,99/mês</button>
+                </form>
+            </div>
+            <div class="col-md-5 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <i class="bi bi-book text-primary" style="font-size: 6rem;"></i>
+                    <p class="lead mt-3">Tenha a sabedoria bíblica sempre ao seu alcance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">
+            Pagamento seguro processado pela Stripe. Você pode cancelar sua assinatura a qualquer momento.
+        </small>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if not has_subscription %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    const stripe = Stripe('{{ stripe_public_key }}');
+</script>
+{% endif %}
+{% endblock %}

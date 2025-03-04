@@ -5,8 +5,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash
 from decouple import config
 from functools import wraps
+import stripe
 from bot.ai_bot import AIBot
-from services.waha import Waha
 from services.db import init_db, db
 from services.stripe_service import StripeService
 from models.user import User
@@ -236,43 +236,9 @@ def api_chat():
 
     return jsonify({'message': response})
 
-
-@app.route('/chatbot/webhook/', methods=['POST'])
-def whatsapp_webhook():
-    data = request.json
-    chat_id = data['payload']['from']
-    received_message = data['payload']['body']
-
-    is_group = '@g.us' in chat_id
-    if is_group:
-        return jsonify({'status': 'success', 'message': 'Mensagem de grupo ignorada.'}), 200
-
-    waha = Waha()
-
-    waha.start_typing(chat_id=chat_id)
-    time.sleep(2.5)
-
-    history_messages = waha.get_history_messages(
-        chat_id=chat_id,
-        limit=10,
-    )
-
-    response_message = ai_bot.invoke(
-        history_messages=history_messages,
-        question=received_message,
-    )
-
-    waha.send_message(
-        chat_id=chat_id,
-        message=response_message,
-    )
-
-    waha.stop_typing(chat_id=chat_id)
-
-    return jsonify({'status': 'success'}), 200
-
-
 # Create admin user if it doesn't exist
+
+
 @app.before_first_request
 def create_admin():
     with app.app_context():

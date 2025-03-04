@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Chatbot Gênesis WEB - Seu Assistente Bíblico{% endblock %}
+
+{% block content %}
+<div class="row align-items-center py-5">
+    <div class="col-md-6">
+        <h1 class="display-4 fw-bold mb-4">Converse com a Bíblia</h1>
+        <p class="lead">Um assistente virtual alimentado por inteligência artificial para responder suas dúvidas sobre a Bíblia Sagrada.</p>
+        <p class="mb-4">Receba explicações claras, encontre versículos relevantes e obtenha insights sobre os ensinamentos bíblicos.</p>
+        
+        <div class="d-grid gap-2 d-md-flex mt-4">
+            {% if current_user.is_authenticated %}
+                {% if current_user.has_active_subscription() %}
+                    <a href="{{ url_for('chat') }}" class="btn btn-primary btn-lg px-4">Começar a conversar</a>
+                {% else %}
+                    <a href="{{ url_for('subscription') }}" class="btn btn-primary btn-lg px-4">Assinar Agora</a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-4">Criar Conta</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg px-4">Entrar</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-6 text-center">
+        <img src="{{ url_for('static', filename='img/bible-ai.png') }}" alt="Bíblia Chatbot" class="img-fluid rounded-3 shadow" style="max-width: 80%;">
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row g-4 py-5">
+    <h2 class="text-center mb-4">Por que escolher nosso Assistente Bíblico?</h2>
+    
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-book text-primary" style="font-size: 3rem;"></i>
+                <h3 class="card-title mt-3">Conhecimento Bíblico</h3>
+                <p class="card-text">Responde perguntas baseadas na Bíblia Sagrada com citações precisas e explicações claras.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-chat-dots text-primary" style="font-size: 3rem;"></i>
+                <h3 class="card-title mt-3">Conversa Natural</h3>
+                <p class="card-text">Interface de chat intuitiva que permite perguntar de forma natural, como se estivesse conversando com um estudioso da Bíblia.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="bi bi-lightning text-primary" style="font-size: 3rem;"></i>
+                <h3 class="card-title mt-3">Respostas Rápidas</h3>
+                <p class="card-text">Obtenha respostas em segundos para qualquer dúvida relacionada à Bíblia, sem precisar pesquisar em múltiplas fontes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-light my-5">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2>Apenas R$ 8,99 por mês</h2>
+                <p class="lead mb-0">Acesso ilimitado a todas as funcionalidades do assistente bíblico.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                {% if current_user.is_authenticated %}
+                    {% if current_user.has_active_subscription() %}
+                        <a href="{{ url_for('chat') }}" class="btn btn-primary btn-lg">Acessar Chat</a>
+                    {% else %}
+                        <a href="{{ url_for('subscription') }}" class="btn btn-primary btn-lg">Assinar Agora</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Começar Agora</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

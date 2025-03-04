@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Chatbot Gênesis WEB{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2><i class="bi bi-chat-dots"></i>Chatbot Gênesis WEB</h2>
+            <button id="clearChat" class="btn btn-sm btn-outline-light" title="Limpar conversa">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+        <p>Faça perguntas sobre a Bíblia Sagrada</p>
+    </div>
+    
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+            <div class="message-content">
+                <p>Olá, {{ current_user.username }}! Sou o Chatbot Gênesis WEB, um assistente especializado na Bíblia Sagrada.</p>
+                <p>Como posso ajudar você hoje? Você pode me perguntar sobre:</p>
+                <ul>
+                    <li>Passagens e versículos específicos</li>
+                    <li>Interpretações de textos bíblicos</li>
+                    <li>Histórias e personagens bíblicos</li>
+                    <li>Conselhos espirituais baseados na Bíblia</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="chat-input">
+        <form id="messageForm">
+            <div class="input-group">
+                <input type="text" id="messageInput" class="form-control" placeholder="Digite sua mensagem..." required>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}
