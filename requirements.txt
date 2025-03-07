@@ -6,7 +6,7 @@ werkzeug==2.3.7
 python-decouple==3.8
 requests==2.31.0
 langchain
-langchain-groq
+langchain-openai
 langchain-core
 langchain-chroma
 langchain-huggingface

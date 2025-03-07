@@ -4,11 +4,11 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from langchain_huggingface import HuggingFaceEmbeddings
 
 # Configura as chaves de API
-os.environ['GROQ_API_KEY'] = config('GROQ_API_KEY')
+os.environ['OPENAI_API_KEY'] = config('OPENAI_API_KEY')
 os.environ['HUGGINGFACE_API_KEY'] = config('HUGGINGFACE_API_KEY')
 
 
@@ -21,7 +21,7 @@ class AIBot:
         """
         Inicializa o bot de IA com um modelo e um mecanismo de recuperação de documentos.
         """
-        self.__chat = ChatGroq(model='llama-3.3-70b-versatile')
+        self.__chat = ChatOpenAI(model='gpt-4o')
         self.__retriever = self.__build_retriever()
 
     def __build_retriever(self):
