@@ -236,11 +236,8 @@ def api_chat():
 
     return jsonify({'message': response})
 
-# Create admin user if it doesn't exist
-
-
-@app.before_first_request
-def create_admin():
+# Remover o decorador @app.before_first_request
+def init_app():
     with app.app_context():
         # Create database tables
         db.create_all()
@@ -262,4 +259,5 @@ def create_admin():
 
 
 if __name__ == '__main__':
+    init_app()  # Chamar a função de inicialização antes de executar o app
     app.run(host='0.0.0.0', port=5000, debug=True)
