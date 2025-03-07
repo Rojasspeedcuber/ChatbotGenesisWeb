@@ -250,7 +250,7 @@ def create_admin():
         admin = User.query.filter_by(email=admin_email).first()
 
         if not admin:
-            admin_password = config('ADMIN_PASSWORD', default='adminpassword')
+            admin_password = config('ADMIN_PASSWORD')
             admin = User(
                 username='admin',
                 email=admin_email,
