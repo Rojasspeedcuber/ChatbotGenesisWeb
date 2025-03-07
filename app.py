@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config('SECRET_KEY', default='dev-secret-key')
+app.config['SECRET_KEY'] = f'{os.urandom(12).hex()}'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -246,7 +246,7 @@ def create_admin():
         db.create_all()
 
         # Check if admin user exists
-        admin_email = config('ADMIN_EMAIL', default='admin@example.com')
+        admin_email = config('ADMIN_EMAIL')
         admin = User.query.filter_by(email=admin_email).first()
 
         if not admin:
