@@ -19,9 +19,6 @@ app.config['SECRET_KEY'] = f'{os.urandom(12).hex()}'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Configurar pasta estática explicitamente
-app.static_folder = 'static'
-app.static_url_path = '/static'
 
 # Initialize database
 init_db(app)
@@ -61,20 +58,6 @@ def subscription_required(f):
 @app.route('/')
 def index():
     return render_template('index.html')
-
-
-@app.route('/test-static')
-def test_static():
-    import os
-    static_path = os.path.join(app.static_folder, 'img')
-    if os.path.exists(static_path):
-        files = os.listdir(static_path)
-        return jsonify({
-            'static_folder': app.static_folder,
-            'files': files,
-            'urls': [url_for('static', filename=f'img/{file}', _external=True) for file in files]
-        })
-    return jsonify({'error': 'Static folder not found', 'path': static_path})
 
 
 @app.route('/register', methods=['GET', 'POST'])
